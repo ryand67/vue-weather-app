@@ -3,7 +3,7 @@
     <main>
       <div class="search-box">
         <input type="text" 
-        placeholder="Search..." 
+        placeholder="Search a city..." 
         class="search-bar"
         v-model="query"
         @keyup.enter="fetchWeather">
@@ -17,7 +17,10 @@
         </div>
         <div class="weather-box">
           <div class="temp">{{ Math.round(weather.main.temp) }}°F</div>
-          <div class="weather">{{ weather.weather[0].main }}</div>
+          <div class="weather">
+            {{ weather.weather[0].main }}
+            <img v-bind:src="iconLink" alt="">
+          </div>
         </div>
       </div>
     </main>
@@ -34,16 +37,17 @@ export default {
       api_key: 'a6957c1b49c6ff3ddbf191f7c07846ca',
       url_base: 'api.openweather.org/data/2.5/',
       query: '',
-      weather: {}
+      weather: {},
+      iconLink: ''
     }
   },
   methods: {
     fetchWeather() {
       axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&units=imperial&appid=${this.api_key}`)
-        .then(res => {
+        .then((res) => {
           res = res.data;
-          console.log(res);
           this.setResults(res);
+          this.iconLink = `http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`
         })
     },
     setResults(results) {
@@ -64,6 +68,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 * {
@@ -90,11 +95,15 @@ body {
 main {
   min-height: 100vh;
   padding: 25px;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, .25), rgba(0, 0, 0, .75))
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, .25), rgba(0, 0, 0, 0.74));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-box {
-  width: 100%;
+  width: 30%;
   margin-bottom: 2em;
 }
 
@@ -136,6 +145,12 @@ main {
   font-style: italic;
 }
 
+.weather {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .weather-box {
   text-align: center;
 }
@@ -144,7 +159,7 @@ main {
   display: inline-block;
   padding: 10px 25px;
   color: #FFF;
-  font-size: 8em;
+  font-size: 7em;
   font-weight: 900;
 
   text-shadow: 3px 6px rgba(0, 0, 0, .25);
