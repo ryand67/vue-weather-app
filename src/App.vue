@@ -25,7 +25,7 @@
           </div>
           <div class="weather">
             {{ weather.weather[0].main }}
-            <img v-bind:src="iconLink" alt="">
+            <img v-bind:src="iconLink" alt="Weather Icon">
           </div>
         </div>
       </div>
