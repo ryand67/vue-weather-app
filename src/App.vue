@@ -21,6 +21,7 @@
             <p>Min: {{ Math.round(weather.main.temp_min) }}°F</p>
             <p>Max: {{ Math.round(weather.main.temp_max) }}°F</p>
             <p>Feels Like: {{ Math.round(weather.main.feels_like) }}°F</p>
+            <p>Wind: {{ Math.round(weather.wind.speed) }}mph</p>
           </div>
           <div class="weather">
             {{ weather.weather[0].main }}
@@ -50,7 +51,6 @@ export default {
     fetchWeather() {
       axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&units=imperial&appid=${this.api_key}`)
         .then((res) => {
-          console.log(res.data);
           res = res.data;
           this.setResults(res);
           this.iconLink = `http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`
