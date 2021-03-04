@@ -17,6 +17,11 @@
         </div>
         <div class="weather-box">
           <div class="temp">{{ Math.round(weather.main.temp) }}°F</div>
+          <div class="weather-info">
+            <p>Min: {{ Math.round(weather.main.temp_min) }}°F</p>
+            <p>Max: {{ Math.round(weather.main.temp_max) }}°F</p>
+            <p>Feels Like: {{ Math.round(weather.main.feels_like) }}°F</p>
+          </div>
           <div class="weather">
             {{ weather.weather[0].main }}
             <img v-bind:src="iconLink" alt="">
@@ -45,6 +50,7 @@ export default {
     fetchWeather() {
       axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${this.query}&units=imperial&appid=${this.api_key}`)
         .then((res) => {
+          console.log(res.data);
           res = res.data;
           this.setResults(res);
           this.iconLink = `http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`
@@ -118,7 +124,7 @@ main {
   border: none;
   background: none;
   box-shadow: 0px 0px .5em rgba(0, 0, 0, .25);
-  background-color: rgba(255, 255, 255, 0.637);
+  background-color: rgba(255, 255, 255, 0.89);
   border-radius: 0px 1em 0em 1em;
   transition: .4s;
 }
@@ -176,6 +182,17 @@ main {
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, .25);
+}
+
+.weather-info {
+  color: #FFF;
+  font-size: 2em;
+  display: flex;
+  flex-direction: row;
+}
+
+.weather-info p {
+  margin: 0 1em;
 }
 
 </style>
